@@ -3,12 +3,17 @@ const fs=require("fs")
 const server=http.createServer((req,res)=>{
    if(req.url==="/quiz")
    {
-    res.end("quiz page")
+    fs.readFile("./quiz.html",{encoding:"utf-8"},(err,data)=>{
+      res.write(data)
+      res.end()
+      // console.log(data)
+   })
    }
    if(req.url==="/file")
    {
      fs.readFile("./text.txt",{encoding:"utf-8"},(err,data)=>{
-         return res.end(data)
+        res.write(data)
+        res.end()
         // console.log(data)
      })
    }
@@ -19,3 +24,5 @@ const server=http.createServer((req,res)=>{
 server.listen(8080,()=>{
     console.log("listening on 8080")
 })
+
+//benchmarking: pushing to limit and then test it.
