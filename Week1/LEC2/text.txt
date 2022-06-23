@@ -1,0 +1,17 @@
+
+//http: its a set of rules and regulation that needs to be followed for better understanding the needs of a client when 
+//      he/she communicates with the server.
+//      Browser connects the server to the client.
+//      Look for three way architecture
+
+//Why get data in chunks?--->1) To handle load on server.
+//                           2) Limitation of internet bandwidth.
+//http verbs: GET,PUT,DELETE,PATCH,POST
+//PUT:replaces the entire field.
+//PATCH:particular part of field is modified
+
+//idempotent:something whose value remains unchanged.
+//Idempotent verbs:GET,DELETE(partial)
+
+
+//Headers: they add more info in req and res. Whar kind of data.
