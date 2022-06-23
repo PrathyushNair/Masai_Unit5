@@ -10,4 +10,13 @@ const sub=(a,b)=>{
 const div=(a,b)=>{
     return(Number(a)/Number(b))
 }
-module.exports={add,mul,sub,div}
+const sin=(a)=>{
+    return(Math.sin(Number(a)))
+}
+const cos=(a)=>{
+    return(Math.cos(Number(a)))
+}
+const tan=(a)=>{
+    return(Math.tan(Number(a)))
+}
+module.exports={add,mul,sub,div,sin,cos,tan}
