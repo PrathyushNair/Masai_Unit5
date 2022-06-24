@@ -6,15 +6,11 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(express.text())
 
-//GET request
-app.get("/",(req,resp)=>{
-    resp.send("<h3 >Hello i am a heading</h3>")
-})
-/////////////////////////////////////
+
 
 
 //POST request
-app.post("/send",(req,resp)=>{
+app.post("/",(req,resp)=>{
     console.log(req.body)
     const datafromclient=req.body
     fs.readFile("./data.json",{encoding:"utf-8"},(err,data)=>{
@@ -22,7 +18,7 @@ app.post("/send",(req,resp)=>{
             console.log("error")
         }
         const parsedata=JSON.parse(data)
-        parsedata.messages=[...parsedata.messages,datafromclient]
+        parsedata.todos=[...parsedata.todos,datafromclient]
         fs.writeFile("./data.json",JSON.stringify(parsedata),"utf-8",(err,data)=>{
             if(err){
                 console.log("error")
@@ -36,14 +32,14 @@ app.post("/send",(req,resp)=>{
 /////////////////////////////////////
 
 //GET from a json server
-app.get("/messages",(req,res)=>{
+app.get("/",(req,res)=>{
     fs.readFile("./data.json","utf-8",(err,data)=>{
         if(err)
         {
             res.send("something went wrong")
         }
         const parseddt=JSON.parse(data)
-        const msg=parseddt.messages
+        const msg=parseddt.todos
         res.send(JSON.stringify(msg))
     })
 })
@@ -51,7 +47,7 @@ app.get("/messages",(req,res)=>{
 
 //DELETE
 
-app.delete("/messages/:id",(req,res)=>{
+app.delete("/:id",(req,res)=>{
     const {id}=req.params
     
     fs.readFile("./data.json","utf-8",(err,data)=>{
@@ -60,17 +56,43 @@ app.delete("/messages/:id",(req,res)=>{
             res.send("something went wrong")
         }
         const parseddata=JSON.parse(data)
-        const finaldata=parseddata.messages
-        console.log(finaldata)
+        const finaldata=parseddata.todos
+       
         const newdata=finaldata.filter((el)=>el.id!=id
         )
-        console.log(newdata)
-        parseddata.messages=newdata
+        
+        parseddata.todos=newdata
         fs.writeFile("./data.json",JSON.stringify(parseddata),"utf-8",()=>{
             res.send("data will be deleted")
         })
         
     })
+})
+
+
+app.put("/:id",(req,res)=>{
+    const id=req.params.id
+    fs.readFile("./data.json","utf-8",(err,data)=>{
+        if(err)
+        {
+            res.send("Some Error occured")
+        }
+        receiveddt=JSON.parse(data)
+        const message_arr=receiveddt.todos
+        message_arr.forEach((el)=>{
+        if(el.id==id)
+        {   
+            el.task=req.body.task
+            el.status=req.body.status
+            
+        }
+       
+       })
+       fs.writeFile("./data.json",JSON.stringify(receiveddt),"utf-8",()=>{
+        res.send("data will be deleted")
+    })
+    })
+    res.send("data will be edited")
 })
 
 
